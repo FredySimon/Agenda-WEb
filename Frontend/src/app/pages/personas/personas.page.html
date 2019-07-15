@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mis contactos</ion-title>
+    <ion-buttons style="margin-bottom: 25px" slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon color="light" slot="icon-only" name="log-out" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-fab *ngIf="personas.length > 0" style="font-family: 'Rajdhani', sans-serif;" horizontal="end" vertical="top" slot="fixed"
+    class="fab-horizontal-end fab-vertical-top fab-edge ">
+    <ion-fab-button color="medium" extend="full" (click)="contactoNuevo()">
+      <ion-icon color="light" name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-item-divider></ion-item-divider>
+
+  <a  *ngIf="personas.length > 0" tyle="font-family: 'Rajdhani', sans-serif;">
+      Contactos guardados:
+  </a>
+
+<ion-searchbar  *ngIf="personas.length > 0" animated color="dark" showCancelButton="focus" placeholder="Buscar contactos"></ion-searchbar>
+
+<ion-card style="border: black" *ngFor="let p of personas">
+  
+    <ion-item >
+      <ion-avatar slot="start">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Google_Contacts_logo.png">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{p.nombre}}</h2>
+        <h3 style="color: darkblue">{{p.correo}}</h3>
+        <p>{{p.direccion}}</p>
+      </ion-label>
+    </ion-item>
+ 
+    <ion-item-divider color="dark"></ion-item-divider>
+
+  <ion-fab style="margin-top: 50px;" horizontal="end" vertical="bottom" slot="fixed" >
+    <ion-fab-button color="primary">
+      <ion-icon name="settings" color="light"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="editNota(nota)" color="light">
+        <ion-icon name="create"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button extend="full" (click)="obtenerNota(nota)" color="light">
+        <ion-icon name="eye"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="deleteNota(nota._id)" color="light">
+          <ion-icon name="trash"></ion-icon>
+        </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-card>
+  
+<ion-card style="font-family: 'Rajdhani', sans-serif;"  *ngIf="personas.length == 0" color="secondary">
+    <ion-card-content>
+        <ion-card-title style="color: black">Sin amigos:</ion-card-title>
+        <ion-card-subtitle style="color: gray">Agrega el primero:</ion-card-subtitle>
+        <hr style="color: black">
+      <ion-button style="margin-left: 3px; margin-right: 3px; font-family: 'Rajdhani', sans-serif;"
+    type="submit" expand="block" fill="outline" (click)="contactoNuevo()" color="dark">Primer contacto<ion-icon slot="end"
+      name="person-add"></ion-icon>
+  </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content> 
+
+
+          
+
+
+<script>
+    const searchbar = document.querySelector('ion-searchbar');
+    const items = Array.from(document.querySelector('ion-list').children);
+    searchbar.addEventListener('ionItem', handleItem);
+    function handleItem(event) {
+      const query = event.target.value.toLowerCase();
+      requestAnimationFrame(() => {
+        items.forEach(item => {
+          const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+          item.style.display = shouldShow ? 'block' : 'none';
+        });
+      });
+    }
+  </script>
