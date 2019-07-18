@@ -43,9 +43,22 @@ postUsuario(usuario: Usuario):Observable<any>{
   return this.http.post(this.endpoint + 'guardar', params, this.httpOptions).pipe(map(this.extractData))
 }
 
-postContacto(contacto: Contacto, id):Observable<any>{
+postContacto(contacto: Contacto, id:string):Observable<any>{
   let params = JSON.stringify(contacto)
-  return this.http.post(this.endpoint + 'nuevoContacto', params + {id: id}, this.httpOptions).pipe(map(this.extractData))
+  return this.http.post(this.endpoint + 'nuevoContacto/' + id, params, this.httpOptions).pipe(map(this.extractData))
+}
+
+deleteContacto(id: string, idC: string){
+  return this.http.post(this.endpoint + 'eliminarContacto/' + id + '/' + idC, this.httpOptions).pipe(map(this.extractData))
+}
+
+editContacto(id:string, idC:string, contacto: Contacto){
+  let params = JSON.stringify(contacto)
+  return this.http.post(this.endpoint + 'editarContacto/' + id + '/' + idC, params, this.httpOptions).pipe(map(this.extractData));
+}
+
+perfilUsuario(id:string){
+  return this.http.post(this.endpoint + 'perfil', {id: id}, this.httpOptions).pipe(map(this.extractData))
 }
 
 }

@@ -6,10 +6,6 @@ const routes: Routes = [
   { path: 'menu', loadChildren: './pages/menu/menu.module#MenuPageModule' },
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   
-  
-
-
-
 ];
 
 @NgModule({

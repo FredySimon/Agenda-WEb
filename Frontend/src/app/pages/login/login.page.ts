@@ -5,6 +5,7 @@ import { ToastController } from '@ionic/angular';
 
 import { RegisterPage } from './register/register.page';
 import { ModalController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,14 @@ export class LoginPage implements OnInit {
     private nav:NavController,
     public modal: ModalController,
     private loading:LoadingController, 
-    private toast: ToastController
+    private toast: ToastController,
+    private storage: Storage
     ) { }
 
   ngOnInit() {
+    this.storage.get('id').then((val) =>{
+      console.log('Storage:', val)
+    })
   }
 
   async login(){
@@ -37,6 +42,7 @@ export class LoginPage implements OnInit {
       this.password = ''
       loading.dismiss();
       let usuarioId = res.user._id;
+      this.storage.set('id', usuarioId)
       this.nav.navigateForward('/menu/personas/'+usuarioId)
       this.messageLogin()
     }, (err) => {

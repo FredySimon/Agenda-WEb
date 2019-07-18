@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ToastController, AlertController} from '@ionic/angular';
+import { ToastController} from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 
 import { LoginPage } from '../login.page';
@@ -21,7 +21,7 @@ export class RegisterPage implements OnInit {
 
   @Input() data: any;
 
-  constructor(private modal: ModalController, public usuarioService: UsuarioService, private toast: ToastController, private alert: AlertController) { 
+  constructor(private modal: ModalController, public usuarioService: UsuarioService, private toast: ToastController) { 
     this.celularArray = [];
   }
 

@@ -1,75 +1,133 @@
 <ion-header>
   <ion-toolbar color="dark">
-    <ion-title style="color: white; font-family: 'Rubik Mono One', sans-serif;" >Nuevo Contacto</ion-title>
+    <ion-title style="font-family: 'Rajdhani', sans-serif;" *ngIf="!contacto._id">Nuevo Contacto</ion-title>
+    <ion-title style="font-family: 'Rajdhani', sans-serif;" *ngIf="contacto._id">Editar Contacto</ion-title>
     <ion-buttons slot="end">
-        <ion-button (click)="close()">
-          <ion-icon color="light" slot="icon-only" name="close" ></ion-icon>
-        </ion-button>
-      </ion-buttons>
+      <ion-button (click)="close()">
+        <ion-icon color="light" slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <form class="was-validated" #contactoForm="ngForm" (ngSubmit)="nuevoContacto(contactoForm)" autocomplete="off">
+  <form class="was-validated" #contactoForm="ngForm" (ngSubmit)="nuevoContacto(contactoForm)" autocomplete="off">
 
-        <!-- <ion-item>
-            <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">_id</ion-label>
-            <ion-input type="text" [(ngModel)]="_id" name="_id" clearInput ></ion-input> 
-          </ion-item> -->
+    <ion-item hidden>
+      <ion-input type="text" [(ngModel)]="contacto._id" name="_id" clearInput></ion-input>
+    </ion-item>
 
+    <ion-item *ngIf="contacto._id">
+        <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Editar nombre<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input type="text" [(ngModel)]="contacto.nombre" name="nombre" clearInput required value="contacto.nombre"></ion-input>
+      </ion-item>
 
-        <ion-item>
-            <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Nombre</ion-label>
-            <ion-input type="text" [(ngModel)]="contacto.nombre" name="nombre" clearInput required></ion-input> 
+      <ion-item *ngIf="contacto._id">
+          <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Editar fecha de nacimiento<ion-text color="danger">*</ion-text></ion-label>
+          <ion-datetime style="font-family: 'Rajdhani', sans-serif;" 
+            [(ngModel)]="contacto.fecha_nacimiento" name="fecha_nacimiento">{{contacto.fecha_nacimiento}}</ion-datetime>
+        </ion-item>
+
+      <ion-item *ngIf="contacto._id">
+          <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Editar correo<ion-text color="danger">*</ion-text></ion-label>
+          <ion-input required type="text" [(ngModel)]="contacto.correo" name="correo" clearInput value="contacto.correo"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="contacto._id">
+            <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Editar dirección<ion-text color="danger">*</ion-text></ion-label>
+            <ion-input required type="text" [(ngModel)]="contacto.direccion" name="direccion" clearInput value="contacto.direccion"></ion-input>
           </ion-item>
 
-          <ion-item  >
-              <ion-label style="font-family: 'Rajdhani', sans-serif;">Fecha de nacimiento</ion-label>
-              <ion-datetime style="font-family: 'Rajdhani', sans-serif;" value="2000-01-01" [(ngModel)]="contacto.fecha_nacimiento" name="fecha_nacimiento"></ion-datetime>
-            </ion-item>
+          <ion-item *ngIf="contacto._id" style="margin-top: 5px; margin-bottom:5px">
+              <ion-row >
+                  <ion-col size="2">
+            
+                      <ion-icon style="margin-top: 25px; " name="add-circle-outline" align="center" (click)="addPhone()" size="large"></ion-icon>
+               
+                  </ion-col>
+      
+                  <ion-col size="5">
+                    <ion-item>
+                      <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Celulares</ion-label>
+                      <ion-input type="number" [(ngModel)]="celularInput" name="celularInput" clearInput></ion-input>
+            
+                    </ion-item>
+                  </ion-col>
+                  <ion-col size="5">
+                      <div style="text-align:center">
+                          <ion-chip *ngFor="let phone of celularArray" outline color="dark" (click)="remove(phone)">
+                            <ion-icon name="call"></ion-icon>
+                            <ion-label>{{phone}}</ion-label>
+                            <ion-icon name="close-circle"></ion-icon>
+                          </ion-chip>
+                          <!-- <ion-chip *ngFor="let phone of contacto.celulares" outline color="dark" (click)="remove(phone)">
+                              <ion-icon name="call"></ion-icon>
+                              <ion-label>{{phone}}</ion-label>
+                              <ion-icon name="close-circle"></ion-icon>
+                            </ion-chip> -->
+                        </div>
+      
+                        <ion-input hidden [(ngModel)]="contacto.celulares" name="celulares">{{ celularArray | json }} </ion-input>
+                  </ion-col>
+            
+                </ion-row>
+          </ion-item>
 
-            <ion-item>
-                <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Correo</ion-label>
-                <ion-input required type="text" [(ngModel)]="contacto.correo" name="correo" clearInput></ion-input>
-              </ion-item>
+    <ion-item *ngIf="!contacto._id">
+      <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Nombre<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input type="text" [(ngModel)]="contacto.nombre" name="nombre" clearInput required ></ion-input>
+    </ion-item>
 
+    <ion-item *ngIf="!contacto._id">
+      <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Fecha de nacimiento<ion-text color="danger">*</ion-text></ion-label>
+      <ion-datetime style="font-family: 'Rajdhani', sans-serif;" [(ngModel)]="contacto.fecha_nacimiento" name="fecha_nacimiento"></ion-datetime>
+    </ion-item>
+
+    <ion-item *ngIf="!contacto._id">
+      <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Correo<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required type="text" [(ngModel)]="contacto.correo" name="correo" clearInput></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="!contacto._id">
+      <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Dirección<ion-text color="danger">*</ion-text></ion-label>
+      <ion-input required type="text" [(ngModel)]="contacto.direccion" name="direccion" clearInput></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="!contacto._id" style="margin-top: 5px; margin-bottom:5px">
+        <ion-row >
+            <ion-col size="1.5">
+      
+                <ion-icon style="margin-top: 25px; " name="add-circle-outline" align="center" (click)="addPhone()" size="large"></ion-icon>
+         
+            </ion-col>
+
+            <ion-col size="5">
               <ion-item>
-                  <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Dirección</ion-label>
-                  <ion-input required type="text" [(ngModel)]="contacto.direccion" name="direccion" clearInput></ion-input>
-                </ion-item>
-
-                <ion-row>
-                    <ion-col size="9">
-                      <ion-item>
-                        <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Celulares</ion-label>
-                        <ion-input type="number" [(ngModel)]="celularInput" name="celularInput" clearInput ></ion-input>
-                        
-                      </ion-item>
-                    </ion-col>
-  
-                    <ion-col>
-                      <ion-button color="dark" style="margin-left: 3px; margin-right: 3px; margin-top: 15px; font-family: 'Rajdhani', sans-serif;" type="button" expand="block" fill="outline" (click)="addPhone()"><ion-icon name="add-circle-outline" align="center"></ion-icon></ion-button>
-                    </ion-col>
-                  </ion-row>
-  
-                  <div style="text-align:center">
+                <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Celulares</ion-label>
+                <ion-input type="number" [(ngModel)]="celularInput" name="celularInput" clearInput></ion-input>
+      
+              </ion-item>
+            </ion-col>
+            <ion-col size="5">
+                <div style="text-align:center">
                     <ion-chip *ngFor="let phone of celularArray" outline color="dark" (click)="remove(phone)">
                       <ion-icon name="call"></ion-icon>
-                      <ion-label >{{phone}}</ion-label>
+                      <ion-label>{{phone}}</ion-label>
                       <ion-icon name="close-circle"></ion-icon>
                     </ion-chip>
-                  </div>   
-                  
-                  <ion-input [(ngModel)]="contacto.celulares" name="celulares">{{ celularArray | json }}</ion-input>
+                  </div>
 
-                  <ion-input type="text" [(ngModel)]="usuarioLogueado" name="usuarioLogueado">{{_id}}</ion-input>
-              
-              <ion-item-divider></ion-item-divider>
-              
-              <ion-button style="margin-left: 3px; margin-right: 3px; margin-top: 5px; font-family: 'Rajdhani', sans-serif;" type="submit" expand="block" fill="outline" color="dark">Guardar<ion-icon slot="end" name="save"></ion-icon></ion-button>
-              
-            
+                  <ion-input hidden [(ngModel)]="contacto.celulares" name="celulares">{{ celularArray | json }} </ion-input>
+            </ion-col>
+      
+          </ion-row>
+    </ion-item>
 
+    <ion-item-divider></ion-item-divider>
 
-    </form>
+    <ion-button style="margin-left: 3px; margin-right: 3px; margin-top: 5px; font-family: 'Rajdhani', sans-serif;"
+      type="submit" expand="block" fill="outline" color="dark">Guardar<ion-icon slot="end" name="save"></ion-icon>
+    </ion-button>
+
+  </form>
 </ion-content>

@@ -54,15 +54,16 @@ function saveUser(req, res){
 function newContact(req, res){
     var contact = new Contacto();
     var params = req.body;
+    var idUser = req.params.id
 
-    if(contact && params._id){
+    if(params.nombre ){
         contact.nombre = params.nombre;
         contact.fecha_nacimiento = params.fecha_nacimiento;
         contact.correo = params.correo;
         contact.direccion = params.direccion;
         contact.celulares = params.celulares;
 
-        Usuario.findByIdAndUpdate({_id: params._id}, {$push:{contactos: contact}}, {new: true}, (err, contactSave) => {
+        Usuario.findByIdAndUpdate(idUser, {$push:{contactos: contact}}, {new: true}, (err, contactSave) => {
             if(err){
                 res.status(500).send({message: 'Error general al guardar.'});
             } else {
@@ -79,26 +80,82 @@ function newContact(req, res){
 }
 
 function deleteContact(req, res){
-    var contact = new Contacto();
-    var params = req.body;
+    var id = req.params.id;
+    var idContact = req.params.idC;
 
-    if(params._id && contact){
-        contact = params.contacID;
+    if(id && idContact){
+       Usuario.findById(id, (err, usuario) => {
+           if(err){
+               res.status(500).send({message: 'Error general'})
+           } else {
+               if(!usuario){
+                res.status(500).send({message: 'Error al eliminar'});
+               } else {
+                   var contactos = usuario.contactos;
+                   for(let index = 0; index < contactos.length; index++){
+                       if(contactos[index]._id == idContact){
+                           contactos.splice(index, 1);
+                           break;
+                       }
+                   }
 
-        Usuario.findByIdAndUpdate({_id: params._id}, {$splice:{contact: contact}}, {new:true}, (err, contactDelete) => {
-            if(err){
-                res.status(500).send({message: 'Error general al eliminar.'});
-                console.log(err)
-            } else {
-                if(!contactDelete){
-                    res.status(500).send({message: 'Error al eliminar'});
-                } else {
-                    res.status(200).send({ message: 'Removed.' });
-                }
-            }
-        })
+                   Usuario.findByIdAndUpdate(id, {contactos: contactos}, {new: true}, (err, contactDelete) => {
+                       if(err){
+                        res.status(500).send({ message: "Error al eliminar." });
+                       } else {
+                           if(!contactDelete){
+                            res.status(500).send({ message: "No se ha podido eliminar" });
+                           } else {
+                            res.status(200).send({ contactDelete });
+                           }
+                       }
+                   })
+               }
+           }
+       })
     } else {
         res.status(200).send({message: 'Solicitud sin parametros necesarios.'});
+    }
+}
+
+function editContact(req, res){
+    var id = req.params.id;
+    var idContact = req.params.idC;
+    var params = req.body;
+
+    if(id && idContact){
+        Usuario.findById(id, (err, usuario) =>{
+            if(err){
+                res.status(500).send({message: "Error general"})
+            } else {
+                if(!usuario){
+                    res.status(404).send({ message: "No existe este usuario." });
+                } else {
+                    var contactos = usuario.contactos;
+                    for (let index = 0; index < contactos.length; index++){
+                        if(contactos[index]._id == idContact){
+                            contactos[index].nombre = params.nombre;
+                            contactos[index].fecha_nacimiento = params.fecha_nacimiento;
+                            contactos[index].correo = params.correo;
+                            contactos[index].direccion = params.direccion;
+                            contactos[index].celulares = params.celulares;
+                            break;
+                        }
+                    }
+                    Usuario.findByIdAndUpdate(id, {contactos: contactos}, {new: true}, (err, contactUpdate) => {
+                        if(err){
+                         res.status(500).send({ message: "Error general." });
+                        } else {
+                            if(!contactUpdate){
+                             res.status(500).send({ message: "No se ha podido actualizar" });
+                            } else {
+                             res.status(200).send({ contactUpdate });
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 }
 
@@ -160,23 +217,32 @@ function searchContacts(req, res){
     
 }
 
-// function searchCelulares(req, res){
-//     var params = req.body;
-//     var contactId = params.id;
-
-//     if(contactId){
-//         Usuario.findOne({_id: userId}, (err, contacto)=>{
-// if(err)
-//         })
-//     }
-// }
+function getUsuario(req, res){
+    var params = req.body;
+    var userId = params.id;
+    if(userId){
+        Usuario.findById(userId, (err, usuario)=> {
+            if(err){
+                res.status(500).send({message: 'Error general'});
+            }else{
+                if(!usuario){
+                    res.status(500).send({message: 'Usuario inexistente'});
+                } else {
+                    res.status(200).send({usuario});
+                }
+            }
+        })
+    }
+}
 
 module.exports = {
     pruebaUser,
     saveUser,
     newContact,
     deleteContact,
+    editContact,
     login,
     logout,
-    searchContacts
+    searchContacts,
+    getUsuario,
 }

@@ -21,7 +21,7 @@ const routes: Routes = [
       { path: 'principal', loadChildren: '../principal/principal.module#PrincipalPageModule'},
       { path: 'angular', loadChildren: '../angular/angular.module#AngularPageModule'},
       { path: 'ionic', loadChildren: '../ionic/ionic.module#IonicPageModule'},
-      { path: 'personas/:id', loadChildren: '../personas/personas.module#PersonasPageModule',  canActivate: [AuthGuardService]}
+      { path: 'personas/:id', loadChildren: '../personas/personas.module#PersonasPageModule'}
     ]
   }
 ];

@@ -8,6 +8,12 @@ import { IonicModule } from '@ionic/angular';
 import { PersonasPage } from './personas.page';
 import { ContactosPage } from './contactos/contactos.page';
 import { ContactosPageModule } from './contactos/contactos.module';
+import { DetallePage } from './detalle/detalle.page';
+import {DetallePageModule  } from './detalle/detalle.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { PerfilPage } from './perfil/perfil.page';
+import { PerfilPageModule } from './perfil/perfil.module';
+
 
 const routes: Routes = [
   {
@@ -18,15 +24,20 @@ const routes: Routes = [
 
 @NgModule({
   entryComponents: [
-    ContactosPage
+    ContactosPage,
+    DetallePage,
+    PerfilPage
   ],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ContactosPageModule
+    ContactosPageModule,
+    DetallePageModule,
+    PerfilPageModule,
+    PipesModule,
   ],
-  declarations: [PersonasPage]
+  declarations: [PersonasPage, ]
 })
 export class PersonasPageModule {}

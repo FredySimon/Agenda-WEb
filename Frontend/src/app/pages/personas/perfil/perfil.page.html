@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div text-center style="margin-top: 5px">
+        <img src="https://www.pngkit.com/png/full/202-2022283_usuario-icono-perfil-de-usuario.png"
+        width="150px" height="150px" >
+    </div>
+   
+    <ion-button style="margin-left: 3px; margin-right: 3px; margin-top: 5px; font-family: 'Rajdhani', sans-serif;"
+    type="submit" expand="block" fill="outline" (click)="traerInformacion()" color="primary">Mostrar<ion-icon slot="end"
+      name="expand"></ion-icon>
+  </ion-button>
+
+  <h1 *ngIf="password !== ''" style="font-family: 'Rajdhani', sans-serif;border: darkblue 5px solid; color: black; padding: 10px; margin-left: 5px; margin-right: 5px" align="center">{{nombre}}</h1>
+
+    <ion-item *ngIf="password !== ''">
+        <ion-icon slot="end" name="at"></ion-icon>
+        <ion-label>{{correo}}</ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="password !== ''">
+          <ion-icon slot="end" name="key"></ion-icon>
+          <ion-label>{{password}}</ion-label>
+        </ion-item>
+
+        <div *ngIf="password !== ''" text-center style="margin-top: 5px">
+          <ion-label style="font-family: 'Rajdhani', sans-serif">Celulares:</ion-label>
+        </div>
+        
+  <div *ngIf="password !== ''" style="text-align:center; margin-top: 2px; font-family: 'Rajdhani', sans-serif">
+      <ion-chip  *ngFor="let celular of celulares" outline>
+          <ion-icon name="call"></ion-icon>
+          <ion-label>{{celular}}</ion-label>
+        </ion-chip>
+  </div>
+
+  <ion-item *ngIf="password !== ''">
+      <ion-label>Contactos guardados:</ion-label>
+      <ion-badge slot="end">{{contactos}}</ion-badge>
+    </ion-item>
+
+</ion-content>
