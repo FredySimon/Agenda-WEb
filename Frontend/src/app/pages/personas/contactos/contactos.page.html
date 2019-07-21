@@ -38,7 +38,7 @@
             <ion-input required type="text" [(ngModel)]="contacto.direccion" name="direccion" clearInput value="contacto.direccion"></ion-input>
           </ion-item>
 
-          <ion-item *ngIf="contacto._id" style="margin-top: 5px; margin-bottom:5px">
+          <!-- <ion-item *ngIf="contacto._id" style="margin-top: 5px; margin-bottom:5px">
               <ion-row >
                   <ion-col size="2">
             
@@ -60,18 +60,18 @@
                             <ion-label>{{phone}}</ion-label>
                             <ion-icon name="close-circle"></ion-icon>
                           </ion-chip>
-                          <!-- <ion-chip *ngFor="let phone of contacto.celulares" outline color="dark" (click)="remove(phone)">
+                           <ion-chip *ngFor="let phone of contacto.celulares" outline color="dark" (click)="remove(phone)">
                               <ion-icon name="call"></ion-icon>
                               <ion-label>{{phone}}</ion-label>
                               <ion-icon name="close-circle"></ion-icon>
-                            </ion-chip> -->
+                            </ion-chip> 
                         </div>
       
                         <ion-input hidden [(ngModel)]="contacto.celulares" name="celulares">{{ celularArray | json }} </ion-input>
                   </ion-col>
             
                 </ion-row>
-          </ion-item>
+          </ion-item> -->
 
     <ion-item *ngIf="!contacto._id">
       <ion-label style="font-family: 'Rajdhani', sans-serif;" position="floating">Nombre<ion-text color="danger">*</ion-text></ion-label>

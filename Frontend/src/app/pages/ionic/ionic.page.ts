@@ -10,6 +10,9 @@ export class IonicPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
+
+  
 
 }

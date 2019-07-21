@@ -39,14 +39,17 @@ export class PersonasPage implements OnInit {
     
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    if(this.id){
-      this.getPersons();
-    }
     
     this.storage.get('id').then((val) =>{
       console.log('Storage:', val)
+
+      if(val !==null){
+        this.getPersons();
+      }
     })
+
   }
+
 
   async logout(){
     const loading = await this.load.create({
