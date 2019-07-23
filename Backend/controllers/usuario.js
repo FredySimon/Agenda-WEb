@@ -134,9 +134,9 @@ function editContact(req, res){
                     var contactos = usuario.contactos;
                     for (let index = 0; index < contactos.length; index++){
                         if(contactos[index]._id == idContact){
-                            contactos[index].nombre = params.nombre;
+                            contactos[index].nombre = params.nombre.toUpperCase();
                             contactos[index].fecha_nacimiento = params.fecha_nacimiento;
-                            contactos[index].correo = params.correo;
+                            contactos[index].correo = params.correo.toLowerCase();
                             contactos[index].direccion = params.direccion;
                             contactos[index].celulares = params.celulares;
                             break;

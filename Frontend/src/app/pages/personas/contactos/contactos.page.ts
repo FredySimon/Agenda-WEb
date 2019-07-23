@@ -34,14 +34,16 @@ export class ContactosPage implements OnInit {
    }
 
   ngOnInit() {
-    console.log(this.id)
-    console.log(this.idC)
     this.contacto._id = this.idC
     console.log(this.contacto._id)
   
     this.storage.get('id').then((val) =>{
       console.log('Storage:', val)
     })
+
+    if(this.contacto._id !== ''){
+      this.celularArray = this.contacto.celulares
+    }
   }
 
   async close(){
@@ -105,7 +107,7 @@ export class ContactosPage implements OnInit {
           console.log('Número telefónico duplicado')
         }else{
           this.celularArray.push(this.celularInput)
-          this.contacto.celulares.push(this.celularInput)
+          this.contacto.celulares === this.celularArray;
           console.log(this.celularArray)
           console.log(this.contacto.celulares)
           this.celularInput = null;
